@@ -54,13 +54,13 @@ class BMP388 {
             temperature = _data.temperature;
         }
 
+    protected:
+
+        struct bmp3_dev _dev;
+
     private:
 
-        typedef struct bmp3_dev dev_t;
-
         typedef  struct bmp3_data data_t;
-
-        dev_t _dev;
 
         data_t _data;
 };
