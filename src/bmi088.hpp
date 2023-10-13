@@ -14,14 +14,32 @@ class BMI088 {
         static const uint8_t SENSORS_BMI088_GYRO_FS_CFG = BMI088_GYRO_RANGE_2000_DPS;
         static const uint8_t SENSORS_BMI088_ACCEL_FS_CFG = BMI088_ACCEL_RANGE_24G;
 
-        static void i2cInit(struct bmi088_dev *device)
+        static void init(struct bmi088_dev *device)
         {
             device->accel_id = BMI088_ACCEL_I2C_ADDR_PRIMARY;
+            device->delay_ms = delay;
+        }
+
+        static void i2cInit(struct bmi088_dev *device)
+        {
+            init(device);
+
             device->gyro_id = BMI088_GYRO_I2C_ADDR_SECONDARY;
             device->interface = BMI088_I2C_INTF;
+
             device->read = (bmp3_com_fptr_t)i2c_burst_read;
             device->write = (bmp3_com_fptr_t)i2c_burst_write;
-            device->delay_ms = delay;
+        }
+
+        static void spiInit(struct bmi088_dev *device)
+        {
+            init(device);
+
+            device->gyro_id = BMI088_GYRO_I2C_ADDR_PRIMARY;
+            device->interface = BMI088_SPI_INTF;
+
+            device->read = (bmp3_com_fptr_t)spi_burst_read;
+            device->write = (bmp3_com_fptr_t)spi_burst_write;
         }
 
         static bool readGyro(
@@ -94,5 +112,20 @@ class BMI088 {
 
             return rslt == BMI088_OK;
         }
-};
 
+        static bool runGyroSelfTest(bmi088_dev * bmi088Dev)
+        {
+            int8_t tmp = 0;
+
+            return bmi088_perform_gyro_selftest(&tmp, bmi088Dev) ==
+                BMI088_SELFTEST_PASS;
+        }
+
+        static bool runAccelSelfTest(bmi088_dev * bmi088Dev)
+        {
+            int8_t tmp = 0;
+
+            return bmi088_perform_accel_selftest(&tmp, bmi088Dev) ==
+                BMI088_SELFTEST_PASS;
+        }
+};
