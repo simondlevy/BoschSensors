@@ -1,8 +1,8 @@
 extern "C" {
 
-#include <bstdr_types.h>
-#include <bmi088.h>
-#include <bmp3.h>
+#include "vendor/bstdr_types.h"
+#include "vendor/bmi088.h"
+#include "vendor/bmp3.h"
 
 }
 
