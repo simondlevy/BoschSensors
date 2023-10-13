@@ -18,20 +18,10 @@ class BMP388 {
             _dev.write = (bmp3_com_fptr_t)i2c_burst_write;
             _dev.delay_ms = delay;
 
-            return bmp3_init(&_dev) == BMP3_OK;
-        }
+            if (bmp3_init(&_dev) != BMP3_OK) {
+                return false;
+            }
 
-        void read(float & pressure, float & temperature)
-        {
-
-            bmp3_get_sensor_data(BMP3_PRESS | BMP3_TEMP, &_data, &_dev);
-
-            pressure = _data.pressure;
-            temperature = _data.temperature;
-        }
-
-        bool set(void)
-        {
             // Select the pressure and temperature sensor to be enabled
             _dev.settings.press_en = BMP3_ENABLE;
             _dev.settings.temp_en = BMP3_ENABLE;
@@ -55,6 +45,14 @@ class BMP388 {
                 false;
         }
 
+        void read(float & pressure, float & temperature)
+        {
+
+            bmp3_get_sensor_data(BMP3_PRESS | BMP3_TEMP, &_data, &_dev);
+
+            pressure = _data.pressure;
+            temperature = _data.temperature;
+        }
 
     private:
 
