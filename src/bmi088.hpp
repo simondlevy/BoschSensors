@@ -12,6 +12,7 @@ class BMI088 {
     public:
 
         static const uint8_t SENSORS_BMI088_GYRO_FS_CFG = BMI088_GYRO_RANGE_2000_DPS;
+        static const uint8_t SENSORS_BMI088_ACCEL_FS_CFG = BMI088_ACCEL_RANGE_24G;
 
         static void i2cInit(struct bmi088_dev *device)
         {
@@ -67,6 +68,29 @@ class BMI088 {
             struct bmi088_sensor_data gyr = {};
 
             rslt |= bmi088_get_gyro_data(&gyr, bmi088Dev);
+
+            return rslt == BMI088_OK;
+        }
+
+        static bool initAccel(bmi088_dev * bmi088Dev)
+        {
+            auto rslt = bmi088_accel_switch_control(bmi088Dev, BMI088_ACCEL_POWER_ENABLE);
+
+            rslt |= bmi088_accel_init(bmi088Dev);
+
+            // Set power mode
+            bmi088Dev->accel_cfg.power = BMI088_ACCEL_PM_ACTIVE;
+            rslt |= bmi088_set_accel_power_mode(bmi088Dev);
+            delay(10);
+
+            // Set bandwidth and range
+            bmi088Dev->accel_cfg.bw = BMI088_ACCEL_BW_OSR4;
+            bmi088Dev->accel_cfg.range = SENSORS_BMI088_ACCEL_FS_CFG;
+            bmi088Dev->accel_cfg.odr = BMI088_ACCEL_ODR_1600_HZ;
+            rslt |= bmi088_set_accel_meas_conf(bmi088Dev);
+
+            struct bmi088_sensor_data acc;
+            rslt |= bmi088_get_accel_data(&acc, bmi088Dev);
 
             return rslt == BMI088_OK;
         }
