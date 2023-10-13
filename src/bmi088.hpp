@@ -12,7 +12,7 @@ bstdr_ret_t i2c_burst_read(uint8_t dev_id, uint8_t reg_addr,
 bstdr_ret_t i2c_burst_write(uint8_t dev_id, uint8_t reg_addr,
                                uint8_t *reg_data, uint16_t len);
 
-void ms_delay(uint32_t period);
+void delay(uint32_t msec);
 
 void Bmi088_I2C_deviceInit(struct bmi088_dev *device)
 {
@@ -21,5 +21,5 @@ void Bmi088_I2C_deviceInit(struct bmi088_dev *device)
   device->interface = BMI088_I2C_INTF;
   device->read = (bmp3_com_fptr_t)i2c_burst_read;
   device->write = (bmp3_com_fptr_t)i2c_burst_write;
-  device->delay_ms = ms_delay;
+  device->delay_ms = delay;
 }
