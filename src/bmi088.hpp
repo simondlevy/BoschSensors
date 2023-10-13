@@ -23,3 +23,4 @@ void Bmi088_I2C_deviceInit(struct bmi088_dev *device)
   device->write = (bmp3_com_fptr_t)i2c_burst_write;
   device->delay_ms = delay;
 }
+
