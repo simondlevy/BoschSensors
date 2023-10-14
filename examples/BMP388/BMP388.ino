@@ -8,7 +8,7 @@ void setup(void)
 
 }
 
-void main(void)
+void loop(void)
 {
 
 }

@@ -952,8 +952,8 @@ int8_t bmp3_get_fifo_settings(const struct bmp3_dev *dev)
  */
 int8_t bmp3_get_fifo_data(const struct bmp3_dev *dev)
 {
-	int8_t rslt;
-	uint16_t fifo_len;
+	int8_t rslt=0;
+	uint16_t fifo_len=0;
 	struct bmp3_fifo *fifo = dev->fifo;
 
 	rslt = null_ptr_check(dev);
