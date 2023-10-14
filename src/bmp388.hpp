@@ -1,3 +1,5 @@
+#pragma once
+
 extern "C" {
 
 #include "vendor/bstdr_types.h"
@@ -81,6 +83,7 @@ class BMP388 {
             _dev.intf = BMP3_I2C_INTF;
             _dev.read = (bmp3_com_fptr_t)i2c_burst_read;
             _dev.write = (bmp3_com_fptr_t)i2c_burst_write;
+
             _dev.delay_ms = delay;
 
             if (bmp3_init(&_dev) != BMP3_OK) {
@@ -112,7 +115,6 @@ class BMP388 {
 
         void read(float & pressure, float & temperature)
         {
-
             bmp3_get_sensor_data(BMP3_PRESS | BMP3_TEMP, &_data, &_dev);
 
             pressure = _data.pressure;

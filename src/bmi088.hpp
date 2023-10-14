@@ -81,28 +81,6 @@ class BMI088 {
 
         } accelPowerMode_t;
 
-        void i2cInit(void)
-        {
-            init();
-
-            _dev.gyro_id = BMI088_GYRO_I2C_ADDR_SECONDARY;
-            _dev.interface = BMI088_I2C_INTF;
-
-            _dev.read = (bmp3_com_fptr_t)i2c_burst_read;
-            _dev.write = (bmp3_com_fptr_t)i2c_burst_write;
-        }
-
-        void spiInit(void)
-        {
-            init();
-
-            _dev.gyro_id = BMI088_GYRO_I2C_ADDR_PRIMARY;
-            _dev.interface = BMI088_SPI_INTF;
-
-            _dev.read = (bmp3_com_fptr_t)spi_burst_read;
-            _dev.write = (bmp3_com_fptr_t)spi_burst_write;
-        }
-
         bool readGyro(struct bmi088_sensor_data * dataOut)
         {
             return bmi088_get_gyro_data(dataOut, &_dev) == BMI088_OK;
