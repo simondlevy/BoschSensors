@@ -79,10 +79,7 @@ class BMP388 {
                 , iirFilterCoeff_t iirFilterCoeff = IIR_FILTER_COEFF_3
                 )
         {
-            _dev.dev_id = BMP3_I2C_ADDR_SEC;
-            _dev.intf = BMP3_I2C_INTF;
-            _dev.read = (bmp3_com_fptr_t)i2c_burst_read;
-            _dev.write = (bmp3_com_fptr_t)i2c_burst_write;
+            devInit(_dev);
 
             _dev.delay_ms = delay;
 
@@ -123,11 +120,15 @@ class BMP388 {
 
     protected:
 
-        struct bmp3_dev _dev;
+        typedef struct bmp3_dev dev_t;
+
+        virtual void devInit(dev_t & dev) = 0;
 
     private:
 
-        typedef  struct bmp3_data data_t;
+        typedef struct bmp3_data data_t;
+
+        dev_t _dev;
 
         data_t _data;
 };

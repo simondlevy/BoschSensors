@@ -176,7 +176,9 @@ class BMI088 {
 
     protected:
 
-        struct bmi088_dev _dev;
+        typedef struct bmi088_dev dev_t;
+
+        dev_t _dev;
 
         void init(void)
         {

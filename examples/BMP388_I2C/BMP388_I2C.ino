@@ -1,9 +1,9 @@
 #include <Arduino.h>
 #include <Wire.h>
 
-#include <bmp388.hpp>
+#include <bmp388_i2c.hpp>
 
-static BMP388 sensor;
+static BMP388_I2C sensor;
 
 void setup(void)
 {
