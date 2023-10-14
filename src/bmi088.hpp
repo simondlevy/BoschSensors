@@ -11,8 +11,73 @@ class BMI088 {
 
     public:
 
-        static const uint8_t SENSORS_BMI088_GYRO_FS_CFG = BMI088_GYRO_RANGE_2000_DPS;
-        static const uint8_t SENSORS_BMI088_ACCEL_FS_CFG = BMI088_ACCEL_RANGE_24G;
+        typedef enum {
+
+            GYRO_RANGE_2000_DPS,
+            GYRO_RANGE_1000_DPS,
+            GYRO_RANGE_500_DPS,
+            GYRO_RANGE_250_DPS,
+            GYRO_RANGE_125_DPS,
+
+        } gyroRange_t;
+
+        typedef enum {
+
+            GYRO_BW_532_ODR_2000_HZ,
+            GYRO_BW_230_ODR_2000_HZ,
+            GYRO_BW_116_ODR_1000_HZ,
+            GYRO_BW_47_ODR_400_HZ,
+            GYRO_BW_23_ODR_200_HZ,
+            GYRO_BW_12_ODR_100_HZ,
+            GYRO_BW_64_ODR_200_HZ,
+            GYRO_BW_32_ODR_100_HZ,
+
+        } gyroBwOdr_t;
+
+        typedef enum {
+
+            ACCEL_RANGE_3G,
+            ACCEL_RANGE_6G,
+            ACCEL_RANGE_12G,
+            ACCEL_RANGE_24G,
+
+        } accelRange_t;
+
+        typedef enum {
+
+            ACCEL_BW_OSR4,    
+            ACCEL_BW_OSR2,   
+            ACCEL_BW_NORMAL,
+
+        } accelBwOsr_t;
+
+        typedef enum {
+
+            ACCEL_ODR_12_5_HZ = 5,
+            ACCEL_ODR_25_HZ,      
+            ACCEL_ODR_50_HZ,     
+            ACCEL_ODR_100_HZ,   
+            ACCEL_ODR_200_HZ,  
+            ACCEL_ODR_400_HZ, 
+            ACCEL_ODR_800_HZ,
+            ACCEL_ODR_1600_HZ, 
+
+        } accelOdr_t;
+
+        typedef enum {
+
+            GYRO_POWER_MODE_NORMAL       = 0x00,
+            GYRO_POWER_MODE_DEEP_SUSPEND = 0x20,
+            GYRO_POWER_MODE_SUSPEND      = 0x80,
+
+        } gyroPowerMode_t;
+
+        typedef enum {
+
+            ACCEL_POWER_MODE_ACTIVE  = 0x00,
+            ACCEL_POWER_MODE_SUSPEND = 0x03,
+
+        } accelPowerMode_t;
 
         void init(void)
         {
@@ -52,20 +117,25 @@ class BMI088 {
             return bmi088_get_accel_data(dataOut, &_dev) == BMI088_OK;
         }
 
-        bool initGyro(void)
+
+        bool initGyro(
+                const gyroBwOdr_t bwOdr=GYRO_BW_116_ODR_1000_HZ
+                , const gyroRange_t range=GYRO_RANGE_2000_DPS
+                , const gyroPowerMode_t powerMode=GYRO_POWER_MODE_NORMAL
+                )
         {
             auto rslt = bmi088_gyro_init(&_dev);
 
             struct bmi088_int_cfg intConfig;
 
             // Set power mode
-            _dev.gyro_cfg.power = BMI088_GYRO_PM_NORMAL;
+            _dev.gyro_cfg.power = powerMode;
             rslt |= bmi088_set_gyro_power_mode(&_dev);
 
             // Set bandwidth and range
-            _dev.gyro_cfg.bw = BMI088_GYRO_BW_116_ODR_1000_HZ;
-            _dev.gyro_cfg.range = SENSORS_BMI088_GYRO_FS_CFG;
-            _dev.gyro_cfg.odr = BMI088_GYRO_BW_116_ODR_1000_HZ;
+            _dev.gyro_cfg.bw = bwOdr;
+            _dev.gyro_cfg.range = range;
+            _dev.gyro_cfg.odr = bwOdr;
             rslt |= bmi088_set_gyro_meas_conf(&_dev);
 
             intConfig.gyro_int_channel = BMI088_INT_CHANNEL_3;
@@ -86,21 +156,26 @@ class BMI088 {
             return rslt == BMI088_OK;
         }
 
-        bool initAccel(void)
+        bool initAccel(
+                const accelRange_t range=ACCEL_RANGE_24G
+                , const accelBwOsr_t bwOsr=ACCEL_BW_OSR4
+                , const accelOdr_t odr=ACCEL_ODR_1600_HZ
+                , const accelPowerMode_t powerMode=ACCEL_POWER_MODE_ACTIVE
+                )
         {
             auto rslt = bmi088_accel_switch_control(&_dev, BMI088_ACCEL_POWER_ENABLE);
 
             rslt |= bmi088_accel_init(&_dev);
 
             // Set power mode
-            _dev.accel_cfg.power = BMI088_ACCEL_PM_ACTIVE;
+            _dev.accel_cfg.power = powerMode;
             rslt |= bmi088_set_accel_power_mode(&_dev);
             delay(10);
 
             // Set bandwidth and range
-            _dev.accel_cfg.bw = BMI088_ACCEL_BW_OSR4;
-            _dev.accel_cfg.range = SENSORS_BMI088_ACCEL_FS_CFG;
-            _dev.accel_cfg.odr = BMI088_ACCEL_ODR_1600_HZ;
+            _dev.accel_cfg.bw = bwOsr;
+            _dev.accel_cfg.range = range;
+            _dev.accel_cfg.odr = odr;
             rslt |= bmi088_set_accel_meas_conf(&_dev);
 
             struct bmi088_sensor_data acc;
