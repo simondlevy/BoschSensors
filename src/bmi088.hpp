@@ -1,3 +1,5 @@
+#pragma once
+
 extern "C" {
 
 #include "vendor/bstdr_types.h"
@@ -78,12 +80,6 @@ class BMI088 {
             ACCEL_POWER_MODE_SUSPEND = 0x03,
 
         } accelPowerMode_t;
-
-        void init(void)
-        {
-            _dev.accel_id = BMI088_ACCEL_I2C_ADDR_PRIMARY;
-            _dev.delay_ms = delay;
-        }
 
         void i2cInit(void)
         {
@@ -200,8 +196,13 @@ class BMI088 {
                 BMI088_SELFTEST_PASS;
         }
 
-    private:
+    protected:
 
         struct bmi088_dev _dev;
 
+        void init(void)
+        {
+            _dev.accel_id = BMI088_ACCEL_I2C_ADDR_PRIMARY;
+            _dev.delay_ms = delay;
+        }
 };
