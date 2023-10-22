@@ -121,12 +121,14 @@ extern "C"
     /*************************** Sensor macros   *****************************/
 
     /* Test for an endian machine */
+#if !defined(LITTLE_ENDIAN)
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
 #define LITTLE_ENDIAN   1
 #elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
 #define BIG_ENDIAN   1
 #else
 #error "Code does not support Endian format of the processor"
+#endif
 #endif
 
     /*************************** BMI088 Accelerometer Macros *****************************/
