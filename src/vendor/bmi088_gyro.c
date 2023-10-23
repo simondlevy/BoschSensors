@@ -231,7 +231,7 @@ uint16_t bmi088_get_gyro_regs(uint8_t reg_addr, uint8_t *data, uint16_t len, str
  * @brief This API writes the given data to the register address
  * of gyro sensor.
  */
-uint16_t bmi088_set_gyro_regs(uint8_t reg_addr, uint8_t *data, struct bmi088_dev *dev)
+uint16_t bmi088_set_gyro_regs(uint8_t reg_addr, uint8_t data, struct bmi088_dev *dev)
 {
     uint16_t rslt = BMI088_OK;
 
@@ -239,15 +239,15 @@ uint16_t bmi088_set_gyro_regs(uint8_t reg_addr, uint8_t *data, struct bmi088_dev
     rslt = null_ptr_check(dev);
 
     /* Proceed if null check is fine */
-    if ((rslt == BMI088_OK) && (data != NULL))
-    {
+    if ((rslt == BMI088_OK)) {
+
         /* Configuring reg_addr for SPI Interface */
         if (dev->interface == BMI088_SPI_INTF) {
             reg_addr = (reg_addr & BMI088_SPI_WR_MASK);
         }
 
         /* write to a gyro register */
-        rslt = dev->write(dev->gyro_id, reg_addr, data, 1);
+        rslt = dev->write(dev->gyro_id, reg_addr, &data, 1);
 
         if (rslt != BMI088_OK) {
             rslt = BMI088_E_COM_FAIL;
@@ -272,7 +272,7 @@ uint16_t bmi088_gyro_soft_reset(struct bmi088_dev *dev)
         /* Reset gyro device */
         reg_addr = BMI088_GYRO_SOFTRESET_REG;
         data = BMI088_SOFT_RESET_VAL;
-        rslt = bmi088_set_gyro_regs(reg_addr, &data, dev);
+        rslt = bmi088_set_gyro_regs(reg_addr, data, dev);
 
         if (rslt == BMI088_OK)
         {
@@ -311,7 +311,7 @@ uint16_t bmi088_set_gyro_meas_conf(struct bmi088_dev *dev)
             {
                 reg_addr = BMI088_GYRO_RANGE_REG;
                 /* Write range value to range register */
-                rslt = bmi088_set_gyro_regs(reg_addr, &range, dev);
+                rslt = bmi088_set_gyro_regs(reg_addr, range, dev);
 
                 /* If rslt is ok, copy the current range to previous range to maintain a copy */
                 if (rslt == BMI088_OK)
@@ -334,7 +334,7 @@ uint16_t bmi088_set_gyro_meas_conf(struct bmi088_dev *dev)
             {
                 reg_addr = BMI088_GYRO_BANDWIDTH_REG;
                 /* Write odr value to odr register */
-                rslt = bmi088_set_gyro_regs(reg_addr, &odr, dev);
+                rslt = bmi088_set_gyro_regs(reg_addr, odr, dev);
 
                 /* If rslt is ok, copy the current odr to previous odr to maintain a copy */
                 if (rslt == BMI088_OK)
@@ -395,7 +395,7 @@ uint16_t bmi088_set_gyro_power_mode(struct bmi088_dev *dev)
             {
                 reg_addr = BMI088_GYRO_LPM1_REG;
                 /* Write power to power register */
-                rslt = bmi088_set_gyro_regs(reg_addr, &power, dev);
+                rslt = bmi088_set_gyro_regs(reg_addr, power, dev);
 
                 /* If rslt is fine, copy current power to previous power to maintain a copy */
                 if (rslt == BMI088_OK)
@@ -503,7 +503,7 @@ uint16_t bmi088_set_gyro_selftest(uint8_t selftest, struct bmi088_dev *dev)
                 /* Enable self-test */
                 data = BMI088_SET_BITSLICE(data, BMI088_GYRO_SELF_TEST_EN, selftest);
                 /* write self test input value to self-test register */
-                rslt = bmi088_set_gyro_regs(reg_addr, &data, dev);
+                rslt = bmi088_set_gyro_regs(reg_addr, data, dev);
             }
         }
         else
@@ -625,7 +625,7 @@ static uint16_t set_gyro_data_ready_int(const struct bmi088_int_cfg *int_config,
         data = BMI088_GYRO_DRDY_INT_ENABLE_VAL;
 
         /* write data to interrupt control register */
-        rslt = bmi088_set_gyro_regs(reg_addr, &data, dev);
+        rslt = bmi088_set_gyro_regs(reg_addr, data, dev);
 
         if (rslt == BMI088_OK)
         {
@@ -648,7 +648,7 @@ static uint16_t set_gyro_data_ready_int(const struct bmi088_int_cfg *int_config,
             }
 
             /* write data to interrupt map register */
-            rslt = bmi088_set_gyro_regs(reg_addr, &data, dev);
+            rslt = bmi088_set_gyro_regs(reg_addr, data, dev);
             /* Configure interrupt pin */
             rslt |= set_int_pin_config(int_config, dev);
 
@@ -706,7 +706,7 @@ static uint16_t set_int_pin_config(const struct bmi088_int_cfg *int_config, stru
             }
 
             /* write to interrupt configuration register */
-            rslt = bmi088_set_gyro_regs(reg_addr, &data, dev);
+            rslt = bmi088_set_gyro_regs(reg_addr, data, dev);
         }
     }
 
