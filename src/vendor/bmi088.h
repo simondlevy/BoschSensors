@@ -396,14 +396,13 @@ extern "C"
      *  @param[in] reg_addr  : Register address to where the data to be written.
      *  @param[in] data      : Pointer to data buffer which is to be written
      *  in the sensor.
-     *  @param[in] len       : No. of bytes of data to write.
      *  @param[in] dev       : Structure instance of bmi088_dev.
      *
      *  @return Result of API execution status
      *  @retval zero -> Success
      *  @retval Any non zero value -> Fail
      */
-    uint16_t bmi088_set_gyro_regs(uint8_t reg_addr, uint8_t *data, uint16_t len, struct bmi088_dev *dev);
+    uint16_t bmi088_set_gyro_regs(uint8_t reg_addr, uint8_t *data, struct bmi088_dev *dev);
 
     /*!
      *  @brief This API resets the gyro sensor.

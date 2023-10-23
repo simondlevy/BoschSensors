@@ -685,7 +685,7 @@ uint16_t bmi088_set_accel_fifo_full_int(struct bmi088_int_cfg *int_config, struc
                     }
 
                     /* Write the Accel Interrupt Map Register */
-                    rslt = bmi088_set_gyro_regs(reg_addr, &data, BMI088_ONE, dev);
+                    rslt = bmi088_set_gyro_regs(reg_addr, &data, dev);
 
                 }
             }
@@ -756,7 +756,7 @@ uint16_t bmi088_set_accel_fifo_wm_int(struct bmi088_int_cfg *int_config, struct 
                     }
 
                     /* Write to the Accel Interrupt Map Register */
-                    rslt = bmi088_set_gyro_regs(reg_addr, &data, BMI088_ONE, dev);
+                    rslt = bmi088_set_gyro_regs(reg_addr, &data, dev);
                 }
             }
         }
@@ -888,7 +888,7 @@ uint16_t bmi088_set_gyro_fifo_wm(uint8_t fifo_wm, struct bmi088_dev *dev)
 
             /* Write the fifo watermark level*/
             data = BMI088_SET_BITSLICE(data, BMI088_GYRO_FIFO_WM, fifo_wm);
-            rslt |= bmi088_set_gyro_regs(reg_addr, &data, BMI088_ONE, dev);
+            rslt |= bmi088_set_gyro_regs(reg_addr, &data, dev);
         }
         else
         {
@@ -948,7 +948,7 @@ uint16_t bmi088_set_gyro_fifo_mode(uint8_t fifo_mode, struct bmi088_dev *dev)
 
             /* Write the fifo operating mode */
             data = BMI088_SET_BITSLICE(data, BMI088_GYRO_FIFO_MODE, fifo_mode);
-            rslt |= bmi088_set_gyro_regs(reg_addr, &data, BMI088_ONE, dev);
+            rslt |= bmi088_set_gyro_regs(reg_addr, &data, dev);
         }
         else
         {
@@ -1009,7 +1009,7 @@ uint16_t bmi088_set_gyro_fifo_data_sel(uint8_t fifo_data_select, struct bmi088_d
 
             /* Write the fifo operating mode */
             data = BMI088_SET_BITSLICE(data, BMI088_GYRO_FIFO_DATA_SELECT, fifo_data_select);
-            rslt |= bmi088_set_gyro_regs(reg_addr, &data, BMI088_ONE, dev);
+            rslt |= bmi088_set_gyro_regs(reg_addr, &data, dev);
         }
         else
         {
@@ -1126,7 +1126,7 @@ uint16_t bmi088_set_gyro_fifo_tag(uint8_t fifo_tag, struct bmi088_dev *dev)
 
             /* Write the fifo tag */
             data = BMI088_SET_BITSLICE(data, BMI088_GYRO_FIFO_TAG, fifo_tag);
-            rslt |= bmi088_set_gyro_regs(reg_addr, &data, BMI088_ONE, dev);
+            rslt |= bmi088_set_gyro_regs(reg_addr, &data, dev);
         }
         else
         {
@@ -1184,7 +1184,7 @@ uint16_t bmi088_set_gyro_fifo_wm_int(struct bmi088_int_cfg *int_config, struct b
             }
 
             /* write to interrupt configuration register */
-            rslt = bmi088_set_gyro_regs(reg_addr, &data, BMI088_ONE, dev);
+            rslt = bmi088_set_gyro_regs(reg_addr, &data, dev);
         }
 
     }
@@ -1216,7 +1216,7 @@ uint16_t bmi088_set_gyro_fifo_wm_int(struct bmi088_int_cfg *int_config, struct b
     }
 
     /* Write to Interrupt Map register */
-    rslt |= bmi088_set_gyro_regs(reg_addr, &data, BMI088_ONE, dev);
+    rslt |= bmi088_set_gyro_regs(reg_addr, &data, dev);
 
     /* Read the Interrupt enable register */
     reg_addr = BMI088_GYRO_INT_EN_REG;
@@ -1224,7 +1224,7 @@ uint16_t bmi088_set_gyro_fifo_wm_int(struct bmi088_int_cfg *int_config, struct b
 
     /* Write to Interrupt enable register */
     data = BMI088_SET_BITSLICE(data, BMI088_GYRO_INT_EN, fifo_wm_enable);
-    rslt |= bmi088_set_gyro_regs(reg_addr, &data, BMI088_ONE, dev);
+    rslt |= bmi088_set_gyro_regs(reg_addr, &data, dev);
 
     return rslt;
 
