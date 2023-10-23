@@ -504,25 +504,6 @@ extern "C"
     uint16_t bmi088_set_gyro_fifo_tag(uint8_t fifo_tag, struct bmi088_dev *dev);
 
     /*!
-     *  @brief This API enables or disables the FIFO full interrupt of the gyro sensor.
-     *
-     *  @param[in] int_config        : Structure instance of bmi088_int_cfg.
-     *  @param[in] dev               : Structure instance of bmi088_dev.
-     *  @param[in] fifo_full_enable  : Variable used to enable or disable fifo
-     *  full interrupt
-     *         value              |  fifo_full_enable
-     *  --------------------------|-----------------------------------
-     *   BMI088_DISABLE           | Disables fifo full interrupt
-     *   BMI088_ENABLE            | Enables fifo full interrupt
-     *
-     *  @return Result of API execution status
-     *  @retval zero -> Success
-     *  @retval Any non zero value -> Fail
-     *
-     */
-    uint16_t bmi088_set_gyro_fifo_full_int(struct bmi088_int_cfg *int_config, struct bmi088_dev *dev, uint8_t fifo_full_enable);
-
-    /*!
      *  @brief This API enables or disables the FIFO watermark interrupt of the gyro sensor.
      *
      *  @param[in] int_config      : Structure instance of bmi088_int_cfg.
