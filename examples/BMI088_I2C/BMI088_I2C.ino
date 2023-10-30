@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 
+#include "bmi088_i2c.hpp"
 
 void setup(void)
 {
