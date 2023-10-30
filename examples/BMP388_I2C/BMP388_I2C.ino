@@ -7,6 +7,8 @@ static BMP388_I2C sensor;
 
 void setup(void)
 {
+    Serial.begin(115200);
+
     Wire.begin();
 
     sensor.init();

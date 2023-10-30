@@ -599,6 +599,7 @@ uint16_t bmi088_set_accel_power_mode(struct bmi088_dev *dev)
     if (rslt == BMI088_OK)
     {
         power = dev->accel_cfg.power;
+
         /* Check if current power is not previously configured power */
         if (power != accel_cfg_copy.power)
         {
@@ -622,6 +623,7 @@ uint16_t bmi088_set_accel_power_mode(struct bmi088_dev *dev)
             if (rslt == BMI088_OK)
             {
                 reg_addr = BMI088_ACCEL_PWR_CONF_REG;
+
                 /* write to accel power configuration register */
                 rslt = bmi088_set_accel_regs(reg_addr, data, BMI088_TWO, dev);
 
