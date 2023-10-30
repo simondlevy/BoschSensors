@@ -855,7 +855,7 @@ extern "C"
      *  @brief
      *  This structure holds all relevant information about BMI088
      */
-    struct bmi088_dev
+    typedef struct bmi088_dev
     {
         /*! Accel chip Id */
         uint8_t accel_chip_id;
@@ -888,7 +888,7 @@ extern "C"
         bmi088_com_fptr_t write;
         /*! Delay function pointer */
         bmi088_delay_fptr_t delay_ms;
-    };
+    } bmi088_dev_t;
 
 /*************************** C++ guard macro *****************************/
 #ifdef __cplusplus
