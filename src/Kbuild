@@ -1,1 +1,1 @@
-obj-y += vendor/
+obj-y += bosch/

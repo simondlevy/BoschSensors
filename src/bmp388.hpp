@@ -2,8 +2,8 @@
 
 extern "C" {
 
-#include "vendor/bstdr_types.h"
-#include "vendor/bmp3.h"
+#include "bosch/bstdr_types.h"
+#include "bosch/bmp3.h"
 }
 
 #include "glue.h"

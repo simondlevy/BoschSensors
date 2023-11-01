@@ -1,5 +1,5 @@
-#include "vendor/bstdr_types.h"
-#include "vendor/bmi088_defs.h"
+#include "bosch/bstdr_types.h"
+#include "bosch/bmi088_defs.h"
 
 bstdr_ret_t i2c_burst_read(uint8_t dev_id, uint8_t reg_addr,
                               uint8_t *reg_data, uint16_t len);
