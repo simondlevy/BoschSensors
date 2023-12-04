@@ -16,31 +16,28 @@ class BMI088_I2C {
 
     public:
 
-        BMI088_I2C(void)
+        bool begin(
+                const uint8_t addr = BMI088_GYRO_I2C_ADDR_PRIMARY,
+                const uint8_t gyroFs=BMI088_GYRO_RANGE_2000_DPS)
         {
-            _dev.gyro_id = BMI088_GYRO_I2C_ADDR_SECONDARY;
+            _dev.gyro_id = addr;
             _dev.interface = BMI088_I2C_INTF;
             _dev.read = (bmi088_com_fptr_t)i2c_burst_read;
             _dev.write = (bmi088_com_fptr_t)i2c_burst_write;
 
             _dev.delay_ms = delay;
-        }
 
-        void begin(void)
-        {
             auto rslt = bmi088_gyro_init(&_dev);
 
             if (rslt == BSTDR_OK) {
 
                 struct bmi088_int_cfg intConfig;
 
-                Serial.println("BMI088 Gyro connection [OK].");
-
                 _dev.gyro_cfg.power = BMI088_GYRO_PM_NORMAL;
                 rslt |= bmi088_set_gyro_power_mode(&_dev);
 
                 _dev.gyro_cfg.bw = BMI088_GYRO_BW_116_ODR_1000_HZ;
-                _dev.gyro_cfg.range = SENSORS_BMI088_GYRO_FS_CFG;
+                _dev.gyro_cfg.range = gyroFs;
                 _dev.gyro_cfg.odr = BMI088_GYRO_BW_116_ODR_1000_HZ;
                 rslt |= bmi088_set_gyro_meas_conf(&_dev);
 
@@ -55,8 +52,11 @@ class BMI088_I2C {
                 delay(50);
                 struct bmi088_sensor_data gyr;
                 rslt |= bmi088_get_gyro_data(&gyr, &_dev);
+
+                return true;
             }
 
+            return false;
         }
 
     private:
