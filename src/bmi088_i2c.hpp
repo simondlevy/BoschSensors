@@ -52,11 +52,9 @@ class BMI088_I2C {
                 delay(50);
                 struct bmi088_sensor_data gyr;
                 rslt |= bmi088_get_gyro_data(&gyr, &_dev);
-
-                return true;
             }
 
-            return false;
+            return rslt == BSTDR_OK;
         }
 
     private:
