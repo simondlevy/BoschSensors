@@ -52,6 +52,12 @@ class BMI088_I2C {
             struct bmi088_sensor_data gyr;
             rslt |= bmi088_get_gyro_data(&gyr, &_dev);
 
+            rslt |= bmi088_accel_switch_control(&_dev, BMI088_ACCEL_POWER_ENABLE);
+
+            delay(5);
+
+            rslt = bmi088_accel_init(&_dev);
+
             return rslt == BSTDR_OK;
         }
 

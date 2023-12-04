@@ -214,10 +214,12 @@ static struct bmi088_cfg accel_cfg_copy;
  *  It performs the selection of I2C/SPI read mechanism according to the
  *  selected interface and reads the chip-id of accel sensor.
  */
-uint16_t bmi088_accel_init(struct bmi088_dev *dev)
+bstdr_ret_t bmi088_accel_init(struct bmi088_dev *dev)
 {
     uint16_t rslt = BMI088_OK;
+
     uint8_t data = 0, reg_addr;
+
     /* Check for null pointer in the device structure*/
     rslt = null_ptr_check(dev);
     /* Proceed if null check is fine */
