@@ -27,6 +27,15 @@ class BMI088_I2C {
 
             _dev.delay_ms = delay;
 
+            return gyro_init(gyroFs);
+        }
+
+    private:
+
+        bmi088_dev_t _dev;
+
+        bool gyro_init(const uint8_t gyroFs)
+        {
             auto rslt = bmi088_gyro_init(&_dev);
 
             if (rslt == BSTDR_OK) {
@@ -54,11 +63,6 @@ class BMI088_I2C {
                 rslt |= bmi088_get_gyro_data(&gyr, &_dev);
             }
 
-            return rslt == BSTDR_OK;
+            return (rslt == BSTDR_OK);
         }
-
-    private:
-
-        bmi088_dev_t _dev;
-
 };
