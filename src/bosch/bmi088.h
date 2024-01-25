@@ -87,6 +87,8 @@
 #ifndef BMI088_H_
 #define BMI088_H_
 
+#include "bstdr_types.h"
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -115,7 +117,7 @@ extern "C"
      *  @retval zero -> Success
      *  @retval Any non zero value -> Fail
      */
-    uint16_t bmi088_accel_init(struct bmi088_dev *dev);
+    bstdr_ret_t bmi088_accel_init(struct bmi088_dev *dev);
 
     /*!
      *  @brief This API is used to write the binary configuration in the sensor

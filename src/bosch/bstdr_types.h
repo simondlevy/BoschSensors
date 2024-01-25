@@ -90,16 +90,16 @@
  * @brief Enumeration for function return codes
  *
  */
-typedef enum
-{
-	BSTDR_OK = 0,
-	BSTDR_E_GEN_ERROR = -1,
-	BSTDR_E_OUT_OF_RANGE = -2,
-	BSTDR_E_BMI160_BUSY = -3,
-	BSTDR_E_CON_ERROR= -4,
-	BSTDR_E_CHIPID_ERROR= -5,
-	BSTDR_E_NULL_PTR = -127
-}bstdr_ret_t;
+
+typedef int8_t bstdr_ret_t;
+
+static const bstdr_ret_t BSTDR_OK = 0;
+static const bstdr_ret_t BSTDR_E_GEN_ERROR = -1;
+static const bstdr_ret_t BSTDR_E_OUT_OF_RANGE = -2;
+static const bstdr_ret_t BSTDR_E_BMI160_BUSY = -3;
+static const bstdr_ret_t BSTDR_E_CON_ERROR= -4;
+static const bstdr_ret_t BSTDR_E_CHIPID_ERROR= -5;
+static const bstdr_ret_t BSTDR_E_NULL_PTR = -127;
 
 /*!
  * @brief Enumeration for sensor interfaces
@@ -107,18 +107,18 @@ typedef enum
  */
 typedef enum
 {
-	BSTDR_NO_INTERFACE = 0,
-	BSTDR_I2C_INTERFACE = 1,
-	BSTDR_SPI3_INTERFACE = 3,
-	BSTDR_SPI4_INTERFACE = 4
+    BSTDR_NO_INTERFACE = 0,
+    BSTDR_I2C_INTERFACE = 1,
+    BSTDR_SPI3_INTERFACE = 3,
+    BSTDR_SPI4_INTERFACE = 4
 }bstdr_interface_t;
 
 #define BSTDR_BITS_MSK(bitspos,bitslen) \
-		(((0xff>>(8-bitslen))<<bitspos))
+    (((0xff>>(8-bitslen))<<bitspos))
 #define BSTDR_GET_BITSLICE(regvar, bitspos, bitslen) \
-			((regvar & BSTDR_BITS_MSK(bitspos,bitslen)) >> bitspos)
+    ((regvar & BSTDR_BITS_MSK(bitspos,bitslen)) >> bitspos)
 #define BSTDR_SET_BITSLICE(regvar, bitspos,bitslen, val)\
-		((regvar & ~BSTDR_BITS_MSK(bitspos,bitslen)) | ((val<<bitspos)&BSTDR_BITS_MSK(bitspos,bitslen)))
+    ((regvar & ~BSTDR_BITS_MSK(bitspos,bitslen)) | ((val<<bitspos)&BSTDR_BITS_MSK(bitspos,bitslen)))
 
 /**< Function pointers */
 /**< function pointer for the burst write operation in either I2C or SPI*/
